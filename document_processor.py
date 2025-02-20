@@ -51,7 +51,6 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
                 print(f"Extracted text from PDF: {text[:200]}")
                 doc = Document(page_content=text, metadata={"source": uploaded_file.name})
                 insert_file_metadata(uploaded_file.name, text)
-                placeholder.success(f"PDF '{uploaded_file.name}' processed successfully!")
 
             # Process Text files
             elif uploaded_file.type == 'text/plain':
@@ -59,7 +58,6 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
                 print(f"Extracted text from TXT: {text[:200]}")
                 doc = Document(page_content=text, metadata={"source": uploaded_file.name})
                 insert_file_metadata(uploaded_file.name, text)
-                placeholder.success(f"Text file '{uploaded_file.name}' processed successfully!")
 
             else:
                 placeholder.error(f"Unsupported file type: {uploaded_file.type}")
@@ -77,7 +75,6 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
                 print(f"Extracted text from URL: {text[:200]}")
                 doc = Document(page_content=text, metadata={"source": url})
                 insert_file_metadata(url, text)
-                placeholder.success(f"Webpage '{url}' processed successfully!")
                 processed_documents.append(doc)
             except Exception as e:
                 placeholder.error(f"Failed to process {url}: {str(e)}")

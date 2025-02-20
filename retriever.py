@@ -14,20 +14,6 @@ retriever = pinecone_index.as_retriever(search_type="similarity", search_kwargs=
 llm = OpenAI(temperature=0.2)
 chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=retriever)
 
-# def retrieve_documents(query, retriever):
-#     results = retriever.get_relevant_documents(query)
-#     documents = []
-    
-#     for doc in results:
-#         doc_content = doc.page_content
-#         doc_metadata = doc.metadata.get("source", "Unknown source")
-#         doc_highlight = f"**Excerpt:** `{doc_content[:300]}...`"  # Show a preview of the relevant text
-#         doc_link = f"[View Source]({doc_metadata})" if doc_metadata.startswith("http") else f"Source: {doc_metadata}"
-        
-#         documents.append(f"{doc_highlight}\n{doc_link}\n\n")
-    
-#     return documents
-
 
 def run_qa_chain(query, llm):
     chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=retriever)

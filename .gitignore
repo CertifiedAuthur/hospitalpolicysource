@@ -1,0 +1,6 @@
+.streamlit/
+documents.db
+hospital_policy.db
+documents
+venv/
+__pycache__

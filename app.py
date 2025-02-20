@@ -198,6 +198,9 @@ def initialize_session_state():
         st.session_state.initialized = True
     if "uploaded_files" not in st.session_state:
         st.session_state.uploaded_files = []
+    # Ensure session state variable exists
+    if "files_processed" not in st.session_state:
+        st.session_state["files_processed"] = False
 
 
 

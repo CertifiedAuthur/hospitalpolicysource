@@ -274,7 +274,7 @@ web_links = None
 
 if admin_authenticated:
     st.sidebar.subheader("Upload New Documents")
-    uploaded_file = st.sidebar.file_uploader("Upload a document", type=["pdf", "txt"])
+    uploaded_file = st.sidebar.file_uploader("Upload a document", accept_multiple_files=True, type=["pdf", "txt"])
     # Store uploaded file name in session state
     if uploaded_file:
         for file in uploaded_file:

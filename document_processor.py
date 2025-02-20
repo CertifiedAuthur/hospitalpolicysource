@@ -6,7 +6,7 @@ import pdfplumber
 from pathlib import Path
 from langchain_community.vectorstores import FAISS
 from langchain.schema import Document
-from db import store_document_and_embedding
+from db import insert_file_metadata, store_document_and_embedding
 
 # Extract text from a PDF
 def extract_text_from_pdf(file_path: Path):
@@ -50,7 +50,7 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
                 text = extract_text_from_pdf(file_path)
                 print(f"Extracted text from PDF: {text[:200]}")
                 doc = Document(page_content=text, metadata={"source": uploaded_file.name})
-                store_document_and_embedding(uploaded_file.name, text, 'pdf')
+                insert_file_metadata(uploaded_file.name, text)
                 placeholder.success(f"PDF '{uploaded_file.name}' processed successfully!")
 
             # Process Text files
@@ -58,7 +58,7 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
                 text = uploaded_file.getvalue().decode("utf-8")
                 print(f"Extracted text from TXT: {text[:200]}")
                 doc = Document(page_content=text, metadata={"source": uploaded_file.name})
-                store_document_and_embedding(uploaded_file.name, text, 'txt')
+                insert_file_metadata(uploaded_file.name, text)
                 placeholder.success(f"Text file '{uploaded_file.name}' processed successfully!")
 
             else:
@@ -76,7 +76,7 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
                 text = extract_text_from_url(url)
                 print(f"Extracted text from URL: {text[:200]}")
                 doc = Document(page_content=text, metadata={"source": url})
-                store_document_and_embedding(url, text, 'webpage')
+                insert_file_metadata(url, text)
                 placeholder.success(f"Webpage '{url}' processed successfully!")
                 processed_documents.append(doc)
             except Exception as e:

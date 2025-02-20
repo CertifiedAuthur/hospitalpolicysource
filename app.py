@@ -6,7 +6,6 @@ import streamlit as st
 from db import delete_file, initialize_database
 from document_processor import handle_file_upload
 from retriever import retrieve_answers
-from langchain_openai import OpenAI
 from pinecone import ServerlessSpec, Pinecone
 from langchain_community.vectorstores import Pinecone as LangchainPinecone
 
@@ -82,7 +81,7 @@ if "uploaded_files" not in st.session_state:
 
 if admin_authenticated:
     st.sidebar.subheader("Upload New Documents")
-    uploaded_file = st.sidebar.file_uploader("Upload a document", type=["pdf", "txt"])
+    uploaded_file = st.sidebar.file_uploader("Upload a document", accept_multiple_files=True, type=["pdf", "txt"])
     if uploaded_file:
         with st.spinner("Processing Document..."):
             document = handle_file_upload(uploaded_file, DOCUMENTS_DIR)

@@ -14,7 +14,7 @@ PINECONE_INDEX = "hospitalpolicy"
 
 # Initialize Pinecone once
 if "pinecone_client" not in st.session_state:
-    st.session_state.pinecone_client = Pinecone(api_key=PINECONE_API_KEY)
+    st.session_state.pinecone = Pinecone(api_key=PINECONE_API_KEY)
 
 
 def initialize_session_state():
@@ -33,7 +33,7 @@ def initialize_session_state():
 
 def configure_pinecone_index():
     """Ensures the Pinecone index is ready without blocking execution."""
-    pc = st.session_state.pinecone_client
+    pc = st.session_state.pinecone
     existing_indexes = [index["name"] for index in pc.list_indexes()]
 
     if PINECONE_INDEX in existing_indexes:

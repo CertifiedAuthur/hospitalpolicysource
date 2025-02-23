@@ -2,6 +2,7 @@ from pathlib import Path
 import sqlite3
 import time
 import streamlit as st
+import pinecone
 from langchain_openai import OpenAIEmbeddings
 from db import delete_file, initialize_database
 from document_processor import handle_file_upload
@@ -10,10 +11,17 @@ from pinecone import ServerlessSpec, Pinecone
 from langchain_community.vectorstores import Pinecone as LangchainPinecone
 
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
-PINECONE_INDEX = "hospitalpolicy"
+# Initialize Pinecone
+pc = Pinecone(api_key=PINECONE_API_KEY)
+
+host = st.secrets["HOST"]
+
+
+PINECONE_INDEX = pinecone.Index("hospitalpolicy", host=host)
+
 
 # Initialize Pinecone once
-if "pinecone_client" not in st.session_state:
+if "pinecone" not in st.session_state:
     st.session_state.pinecone = Pinecone(api_key=PINECONE_API_KEY)
 
 
@@ -124,7 +132,8 @@ if admin_authenticated:
                     LangchainPinecone.from_texts(
                         texts=[doc.page_content for doc in document],
                         embedding=embeddings,
-                        index_name=PINECONE_INDEX,
+                        pinecone_index = Pinecone(PINECONE_INDEX, embeddings),
+                        # index_name=PINECONE_INDEX,
                         metadatas=[{"source": doc.metadata.get("source", "Unknown") if doc.metadata else "Unknown"} for doc in document]
                     )
                     st.sidebar.success(f"✅ {uploaded_file} uploaded successfully!")

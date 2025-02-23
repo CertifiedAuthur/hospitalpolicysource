@@ -107,25 +107,29 @@ if admin_authenticated:
     uploaded_file = st.sidebar.file_uploader("Upload a document", accept_multiple_files=True, type=["pdf", "txt"])
     # Store uploaded file name in session state
     if uploaded_file:
+        st.session_state["files_processed"] = False
         for file in uploaded_file:
             st.session_state["file_name"] = file.name
             
     # Web links input
     web_links = st.sidebar.text_area("Enter web links (one per line)", key="web_links", on_change=process_web_links)
+    if web_links:
+        st.session_state["files_processed"] = False
     if (uploaded_file or web_links) and not st.session_state["files_processed"]:
-        with st.spinner("Processing Document..."):
-            document = handle_file_upload(uploaded_file, web_links, DOCUMENTS_DIR)
-            if document:
-                embeddings = OpenAIEmbeddings()
-                LangchainPinecone.from_texts(
-                    texts=[doc.page_content for doc in document],
-                    embedding=embeddings,
-                    index_name=PINECONE_INDEX,
-                    metadatas=[{"source": doc.metadata.get("source", "Unknown") if doc.metadata else "Unknown"} for doc in document]
-                )
-                st.sidebar.success(f"✅ {uploaded_file} uploaded successfully!")
-            else:
-                st.error("Failed to process the document.")
+        if not st.session_state["files_processed"]:
+            with st.spinner("Processing Document..."):
+                document = handle_file_upload(uploaded_file, web_links, DOCUMENTS_DIR)
+                if document:
+                    embeddings = OpenAIEmbeddings()
+                    LangchainPinecone.from_texts(
+                        texts=[doc.page_content for doc in document],
+                        embedding=embeddings,
+                        index_name=PINECONE_INDEX,
+                        metadatas=[{"source": doc.metadata.get("source", "Unknown") if doc.metadata else "Unknown"} for doc in document]
+                    )
+                    st.sidebar.success(f"✅ {uploaded_file} uploaded successfully!")
+                else:
+                    st.error("Failed to process the document.")
 
 query = st.text_input("\U0001F50D Enter your question about hospital policies:")
 
@@ -174,6 +178,3 @@ try:
         st.sidebar.info("ℹ️ No files uploaded.")
 except Exception as e:
     st.sidebar.error(f"❌ Failed to retrieve files: {e}")
-
-
-

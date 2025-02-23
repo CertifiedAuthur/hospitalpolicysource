@@ -44,4 +44,3 @@ def retrieve_answers(query):
         return response
     except Exception as e:
         return {"answer": f"⚠️ Error: {str(e)}", "sources": "N/A"}
-

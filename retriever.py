@@ -143,6 +143,6 @@ def clear_faiss_index():
     st.session_state["vector_store"] = vector_store
     st.success("FAISS index cleared successfully!")
 
-if st.button("Reset FAISS Index"):
-    clear_faiss_index()
+# if st.button("Reset FAISS Index"):
+#     clear_faiss_index()
 

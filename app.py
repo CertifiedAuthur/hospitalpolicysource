@@ -290,7 +290,7 @@ vector_store = load_faiss_index()
 
 if admin_authenticated:
     st.sidebar.subheader("Upload New Documents")
-    if st.sidebar.button("Delete Vector"):
+    if st.sidebar.button("Reset FAISS Index"):
         FAISS_INDEX_PATH.unlink(missing_ok=True)  # Remove stored FAISS index
         vector_store = None
     

@@ -4,3 +4,4 @@ hospital_policy.db
 documents
 venv/
 __pycache__
+faiss_index/

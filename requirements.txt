@@ -10,4 +10,4 @@ numpy
 tiktoken
 PyPDF2
 langchain-openai
-pinecone
+

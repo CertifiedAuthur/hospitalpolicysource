@@ -318,7 +318,7 @@ if admin_authenticated:
                         metadatas=[{"source": doc.metadata.get("source", "Unknown")} for doc in document]
                     )
                 save_faiss_index(vector_store)
-                st.sidebar.success(f"✅ {uploaded_file} uploaded successfully!")
+                st.sidebar.success("✅ Document uploaded successfully!")
             else:
                 st.error("❌ Failed to process the document.")
 

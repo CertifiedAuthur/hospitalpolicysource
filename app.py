@@ -200,6 +200,7 @@
 
 
 from pathlib import Path
+import shutil
 import sqlite3
 import time
 import streamlit as st
@@ -291,7 +292,8 @@ vector_store = load_faiss_index()
 if admin_authenticated:
     st.sidebar.subheader("Upload New Documents")
     if st.sidebar.button("Reset FAISS Index"):
-        clear_faiss_index()
+        if FAISS_INDEX_PATH.exists() and FAISS_INDEX_PATH.is_dir():
+            shutil.rmtree(FAISS_INDEX_PATH)
     
     uploaded_file = st.sidebar.file_uploader("Upload a document", accept_multiple_files=True, type=["pdf", "txt"])
     if uploaded_file:

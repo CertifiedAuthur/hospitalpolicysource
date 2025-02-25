@@ -290,7 +290,7 @@ vector_store = load_faiss_index()
 
 if admin_authenticated:
     st.sidebar.subheader("Upload New Documents")
-    if st.button("Reset FAISS Index"):
+    if st.sidebar.button("Reset FAISS Index"):
         clear_faiss_index()
     
     uploaded_file = st.sidebar.file_uploader("Upload a document", accept_multiple_files=True, type=["pdf", "txt"])

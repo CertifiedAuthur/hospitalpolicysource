@@ -332,10 +332,10 @@ if query:
                 response = answer["answer"]
                 source = answer["sources"]
                 
-                if isinstance(source, list):  # If sources are returned as a list
-                    formatted_sources = "\n".join(source)
-                elif isinstance(source, str):  # If sources are a single string (e.g., comma-separated)
-                    formatted_sources = "\n".join(source.split(","))
+                if isinstance(source, list):
+                    formatted_sources = "\n".join(f"{i+1}. {src}" for i, src in enumerate(source))
+                elif isinstance(source, str):
+                    formatted_sources = "\n".join(f"{i+1}. {src}" for i, src in enumerate(source.split(",")))
                 else:
                     formatted_sources = "No sources found."
                 

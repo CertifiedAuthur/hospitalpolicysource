@@ -66,9 +66,14 @@ FAISS_INDEX_PATH = Path("faiss_index")
 
 # Load OpenAI Embeddings
 embeddings = OpenAIEmbeddings()
+FAISS_INDEX_PATH = Path(__file__).parent / "vectorstore" / "index"
 
 # Function to create or load FAISS index
 def load_or_create_faiss_index(documents):
+    
+    # Ensure the directory exists
+    FAISS_INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
+    
     if FAISS_INDEX_PATH.exists():
         return FAISS.load_local(str(FAISS_INDEX_PATH), embeddings, allow_dangerous_deserialization=True)
     

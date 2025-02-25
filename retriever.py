@@ -60,13 +60,13 @@ from langchain.chains.qa_with_sources.retrieval import RetrievalQAWithSourcesCha
 from langchain_openai import OpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import FAISS
 import streamlit as st
+import time
 
 # Define FAISS index storage path
 FAISS_INDEX_PATH = Path("faiss_index")
 
 # Load OpenAI Embeddings
 embeddings = OpenAIEmbeddings()
-FAISS_INDEX_PATH = Path(__file__).parent / "vectorstore" / "index"
 
 # Function to create or load FAISS index
 def load_or_create_faiss_index(documents):
@@ -75,7 +75,13 @@ def load_or_create_faiss_index(documents):
     FAISS_INDEX_PATH.parent.mkdir(parents=True, exist_ok=True)
     
     if FAISS_INDEX_PATH.exists():
+        placeholder = st.empty()
+        placeholder.write("✅ FAISS index found. Loading...")
+        time.sleep(5)
+        placeholder.empty()
         return FAISS.load_local(str(FAISS_INDEX_PATH), embeddings, allow_dangerous_deserialization=True)
+    st.write("⚠️ FAISS index not found.")
+    
     
     if not documents:
         print("⚠️ No documents to index. Skipping FAISS initialization.")

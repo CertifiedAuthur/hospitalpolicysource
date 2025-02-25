@@ -19,7 +19,7 @@ def extract_text_from_pdf(file_path: Path):
             if extracted_text:
                 text += extracted_text + "\n"
     
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = text_splitter.split_text(text)
     
     return [Document(page_content=chunk, metadata={"source": str(file_path)}) for chunk in chunks]
@@ -30,7 +30,7 @@ def extract_text_from_url(url: str):
     soup = BeautifulSoup(response.content, 'html.parser')
     content = soup.get_text()
     
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=200)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = text_splitter.split_text(content)
     
     return [Document(page_content=chunk, metadata={"source": url}) for chunk in chunks]
@@ -59,7 +59,7 @@ def handle_file_upload(uploaded_files, web_links, documents_dir: Path):
             # Process Text files
             elif uploaded_file.type == 'text/plain':
                 text = uploaded_file.getvalue().decode("utf-8")
-                text_splitter = RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=200)
+                text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
                 chunks = text_splitter.split_text(text)
                 documents = [Document(page_content=chunk, metadata={"source": uploaded_file.name}) for chunk in chunks]
 

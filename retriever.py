@@ -110,7 +110,7 @@ else:
     print("📢 No vector store created. Waiting for document upload.")
 
 # Load LLM
-llm = OpenAI(temperature=0.9)
+llm = OpenAI(temperature=0.7)
 if retriever:
     chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=retriever)
 else:

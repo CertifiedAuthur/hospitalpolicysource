@@ -332,9 +332,16 @@ if query:
                 response = answer["answer"]
                 source = answer["sources"]
                 
+                if isinstance(source, list):  # If sources are returned as a list
+                    formatted_sources = "\n".join(source)
+                elif isinstance(source, str):  # If sources are a single string (e.g., comma-separated)
+                    formatted_sources = "\n".join(source.split(","))
+                else:
+                    formatted_sources = "No sources found."
+                
                 st.session_state.chat_history.append(("You", query))
                 st.session_state.chat_history.append(("Bot", response))
-                st.session_state.chat_history.append(("Source", source))
+                st.session_state.chat_history.append(("Source", formatted_sources))
         
         except Exception as e:
             st.error(f"Error retrieving response: {e}")

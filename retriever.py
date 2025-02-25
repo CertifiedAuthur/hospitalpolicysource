@@ -104,7 +104,7 @@ st.session_state["vector_store"] = load_or_create_faiss_index(documents)
 
 vector_store = st.session_state["vector_store"]
 if vector_store:
-    retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 20})
+    retriever = vector_store.as_retriever(search_type="similarity", search_kwargs={"k": 50})
 else:
     retriever = None
     print("📢 No vector store created. Waiting for document upload.")

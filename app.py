@@ -206,7 +206,7 @@ import streamlit as st
 from langchain_openai import OpenAIEmbeddings
 from db import delete_file, initialize_database
 from document_processor import handle_file_upload
-from retriever import load_or_create_faiss_index, retrieve_answers
+from retriever import clear_faiss_index, load_or_create_faiss_index, retrieve_answers
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import OpenAIEmbeddings
 
@@ -290,9 +290,8 @@ vector_store = load_faiss_index()
 
 if admin_authenticated:
     st.sidebar.subheader("Upload New Documents")
-    if st.sidebar.button("Reset FAISS Index"):
-        FAISS_INDEX_PATH.unlink(missing_ok=True)  # Remove stored FAISS index
-        vector_store = None
+    if st.button("Reset FAISS Index"):
+        clear_faiss_index()
     
     uploaded_file = st.sidebar.file_uploader("Upload a document", accept_multiple_files=True, type=["pdf", "txt"])
     if uploaded_file:
